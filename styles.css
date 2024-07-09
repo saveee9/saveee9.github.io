@@ -1,18 +1,52 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
+    background-color: #e9ecef;
+    color: #333;
     text-align: center;
     padding: 20px;
-    background-color: #f0f8ff;
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
 }
 
 input, button {
-    font-size: 16px;
+    font-size: 18px;
     padding: 10px;
-    margin: 5px;
-    border: 1px solid #ccc;
+    margin-top: 10px;
+    width: calc(100% - 22px);
+    box-sizing: border-box;
+    border: 2px solid #dee2e6;
     border-radius: 4px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
 
 #weatherResult {
     margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+#temperature, #weather, #humidity {
+    font-size: 16px;
+    color: #212529;
 }
