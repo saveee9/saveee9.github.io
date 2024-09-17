@@ -5,18 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>Weather Checker</h1>
-        <form id="weatherForm">
-            <input type="text" id="city" placeholder="Enter city name" required>
-            <button type="submit">Get Weather</button>
-        </form>
-        <div id="weatherResult">
-            <p id="temperature"></p>
-            <p id="weather"></p>
-            <p id="humidity"></p>
+    <div class="background"></div>
+    <div class="app-container">
+        <div class="language-switch">
+            <button id="lang-en" class="btn btn-secondary">English</button>
+            <button id="lang-th" class="btn btn-secondary">ไทย</button>
+        </div>
+        <div id="welcomeScreen" class="welcome-container">
+            <h1>Welcome to Weather App</h1>
+            <button id="openAppBtn" class="btn btn-primary">Open Weather App</button>
+        </div>
+        <div id="app" class="container hidden">
+            <button id="closeAppBtn" class="btn btn-secondary close-btn">×</button>
+            <h1 id="app-title">Weather Checker</h1>
+            <img id="countryFlag" class="country-flag hidden" alt="Country Flag">
+            <form id="weatherForm" class="form">
+                <input type="text" id="city" placeholder="Enter city name" required autocomplete="off">
+                <button type="submit" class="btn btn-primary submit-btn">Get Weather</button>
+            </form>
+            <div id="weatherResult" class="result">
+                <img id="weatherIcon" alt="Weather Icon" class="hidden weather-icon">
+                <p id="temperature" class="weather-info"></p>
+                <p id="weather" class="weather-info"></p>
+                <p id="humidity" class="weather-info"></p>
+                <p id="windSpeed" class="weather-info"></p>
+                <p id="windDirection" class="weather-info"></p>
+                <p id="pressure" class="weather-info"></p>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
