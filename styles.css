@@ -1,174 +1,242 @@
-let currentLanguage = 'en';
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #31245f, #772424);
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+}
 
-// ตัวอย่างฐานข้อมูลเมืองกับรหัสประเทศ
-const cityToCountryCode = {
-    "Bangkok": "TH",
-    "New York": "US",
-    "London": "GB",
-    "Tokyo": "JP",
-    "Paris": "FR",
-    "Sydney": "AU",
-    "China": "CN",
-    "Mexico": "MEX",
-    "England": "ENG",
-    "Denmark": "DK",
-    // เพิ่มเมืองและรหัสประเทศที่คุณต้องการที่นี่
-};
+.app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-document.getElementById('openAppBtn').addEventListener('click', function() {
-    const app = document.getElementById('app');
-    const welcomeScreen = document.getElementById('welcomeScreen');
-    welcomeScreen.classList.add('hidden');
-    app.classList.remove('hidden');
-    document.getElementById('closeAppBtn').classList.remove('hidden');
-});
+.hidden {
+    display: none;
+}
 
-document.getElementById('closeAppBtn').addEventListener('click', function() {
-    resetUI();
-});
+.welcome-container {
+    background-color: rgba(50, 50, 50, 0.95);
+    width: 100%;
+    max-width: 450px;
+    padding: 60px 30px;
+    border-radius: 16px;
+    border: 2px solid #1cf0e5;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+}
 
-document.getElementById('weatherForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    getWeatherData();
-});
+.container {
+    background-color: rgba(50, 50, 50, 0.95);
+    width: 100%;
+    max-width: 350px; 
+    padding: 20px 15px; 
+    border-radius: 16px;
+    border: 2px solid #1cf0e5;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out, height 0.3s ease-in-out;
+    position: relative;
+    padding-top: 50px;
+}
 
-document.getElementById('lang-en').addEventListener('click', function() {
-    setLanguage('en');
-});
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    font-size: 24px;
+    border: none;
+    color: #4CAF50;
+    cursor: pointer;
+    border-radius: 50%; 
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
-document.getElementById('lang-th').addEventListener('click', function() {
-    setLanguage('th');
-});
+.country-flag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
-function setLanguage(lang) {
-    currentLanguage = lang;
-    if (lang === 'en') {
-        document.getElementById('app-title').innerText = 'Weather Checker';
-        document.getElementById('city').placeholder = 'Enter city name';
-        document.getElementById('weatherForm').querySelector('button').innerText = 'Get Weather';
-        document.getElementById('openAppBtn').innerText = 'Open Weather App';
-        document.getElementById('closeAppBtn').innerText = 'Close';
-    } else if (lang === 'th') {
-        document.getElementById('app-title').innerText = 'ตรวจสอบสภาพอากาศ';
-        document.getElementById('city').placeholder = 'กรอกชื่อเมือง';
-        document.getElementById('weatherForm').querySelector('button').innerText = 'ดูสภาพอากาศ';
-        document.getElementById('openAppBtn').innerText = 'เปิดแอปตรวจสอบสภาพอากาศ';
-        document.getElementById('closeAppBtn').innerText = 'ปิด';
+input {
+    font-size: 16px;
+    padding: 8px;
+    width: calc(100% - 22px);
+    margin: 8px 0;
+    border: 2px solid #1deef1;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transition: background 0.3s ease-in-out, border 0.3s ease-in-out;
+    position: relative;
+}
+
+input:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #66BB6A;
+    outline: none;
+}
+
+.btn {
+    margin: 8px;
+    padding: 10px 16px;
+    font-size: 14px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #779999;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #273d3d;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #457ab6;
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #28313a;
+    transform: translateY(-2px);
+}
+
+.weather-icon {
+    width: 80px;
+    height: 80px;
+    margin: 16px 0;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.weather-info {
+    font-size: 16px; 
+    font-weight: 400;
+    margin: 6px 0; 
+    color: #E0E0E0;
+    animation: fadeInUp 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
     }
-
-    if (document.getElementById('temperature').innerText !== '') {
-        getWeatherData(); 
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
-function getWeatherData() {
-    const city = document.getElementById('city').value;
-    const apiKey = '1b96a398b4f62d7856ea8c1841eea128';
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
-    fetch(url)
-    .then(response => response.json())
-    .then(data => {
-        if (data.cod === 200) {
-            const temperatureText = currentLanguage === 'en' ? `Temperature: ${data.main.temp}°C` : `อุณหภูมิ: ${data.main.temp}°C`;
-            const weatherText = currentLanguage === 'en' ? `Weather: ${data.weather[0].main}` : `สภาพอากาศ: ${translateWeather(data.weather[0].main)}`;
-            const humidityText = currentLanguage === 'en' ? `Humidity: ${data.main.humidity}%` : `ความชื้น: ${data.main.humidity}%`;
-            const windSpeedText = currentLanguage === 'en' ? `Wind Speed: ${data.wind.speed} m/s` : `ความเร็วลม: ${data.wind.speed} m/s`;
-            const windDirectionText = currentLanguage === 'en' ? `Wind Direction: ${data.wind.deg}°` : `ทิศทางลม: ${data.wind.deg}°`;
-            const pressureText = currentLanguage === 'en' ? `Pressure: ${data.main.pressure} hPa` : `ความดันอากาศ: ${data.main.pressure} hPa`;
-
-            document.getElementById('temperature').innerText = temperatureText;
-            document.getElementById('weather').innerText = weatherText;
-            document.getElementById('humidity').innerText = humidityText;
-            document.getElementById('windSpeed').innerText = windSpeedText;
-            document.getElementById('windDirection').innerText = windDirectionText;
-            document.getElementById('pressure').innerText = pressureText;
-
-            const iconCode = data.weather[0].icon;
-            const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
-            document.getElementById('weatherIcon').src = iconUrl;
-            document.getElementById('weatherIcon').classList.remove('hidden');
-
-            // ดึงรหัสประเทศจากฐานข้อมูลหรือใช้รหัสประเทศจาก API
-            const countryCode = cityToCountryCode[city] || data.sys.country.toLowerCase();
-            const countryFlagUrl = `https://flagcdn.com/w320/${countryCode.toLowerCase()}.png`;
-            const countryFlag = document.getElementById('countryFlag');
-            countryFlag.src = countryFlagUrl;
-            countryFlag.classList.remove('hidden');
-
-            // Remove rain animation if weather is not "Rain"
-            if (data.weather[0].main === 'Rain') {
-                showRainAnimation();
-            } else {
-                removeRainAnimation();
-            }
-        } else {
-            alert(`City not found: ${data.message}`);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to retrieve weather data');
-    });
-}
-
-function showRainAnimation() {
-    const rainContainer = document.createElement('div');
-    rainContainer.className = 'rain-container';
-    for (let i = 0; i < 10; i++) {
-        const drop = document.createElement('div');
-        drop.className = 'rain';
-        rainContainer.appendChild(drop);
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
-    document.body.appendChild(rainContainer);
-}
-
-function removeRainAnimation() {
-    const rainContainer = document.querySelector('.rain-container');
-    if (rainContainer) {
-        document.body.removeChild(rainContainer);
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-function translateWeather(weather) {
-    const translations = {
-        "Clear": "ท้องฟ้าแจ่มใส",
-        "Clouds": "มีเมฆมาก",
-        "Rain": "ฝนตก",
-        "Drizzle": "ฝนปรอย",
-        "Thunderstorm": "พายุฝนฟ้าคะนอง",
-        "Snow": "หิมะตก",
-        "Mist": "หมอกบาง",
-        "Smoke": "ควัน",
-        "Haze": "หมอกควัน",
-        "Dust": "ฝุ่น",
-        "Fog": "หมอก",
-        "Sand": "ทราย",
-        "Ash": "เถ้าถ่าน",
-        "Squall": "พายุ",
-        "Tornado": "พายุทอร์นาโด"
-    };
-    return translations[weather] || weather;
+/* CSS สำหรับแอนิเมชันฝนตก */
+@keyframes rain {
+    0% {
+        top: -10%;
+        opacity: 1;
+    }
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
 }
 
-function resetUI() {
-    const app = document.getElementById('app');
-    const welcomeScreen = document.getElementById('welcomeScreen');
-    app.classList.add('hidden');
-    welcomeScreen.classList.remove('hidden');
-    document.getElementById('closeAppBtn').classList.add('hidden');
+.rain {
+    position: absolute;
+    width: 2px;
+    height: 60px;
+    background: #0cf;
+    animation: rain 0.5s linear infinite;
+    z-index: 1000;
+}
 
-    document.getElementById('city').value = '';
-    document.getElementById('temperature').innerText = '';
-    document.getElementById('weather').innerText = '';
-    document.getElementById('humidity').innerText = '';
-    document.getElementById('windSpeed').innerText = '';
-    document.getElementById('windDirection').innerText = '';
-    document.getElementById('pressure').innerText = '';
-    document.getElementById('weatherIcon').classList.add('hidden');
-    document.getElementById('weatherIcon').src = '';
-    document.getElementById('countryFlag').classList.add('hidden');
-    document.getElementById('countryFlag').src = '';
+.rain:nth-child(2) {
+    left: 10%;
+    animation-duration: 0.4s;
+}
 
-    removeRainAnimation(); // Remove rain animation on UI reset
+.rain:nth-child(3) {
+    left: 20%;
+    animation-duration: 0.6s;
+}
+
+.rain:nth-child(4) {
+    left: 30%;
+    animation-duration: 0.7s;
+}
+
+.rain:nth-child(5) {
+    left: 40%;
+    animation-duration: 0.5s;
+}
+
+.rain:nth-child(6) {
+    left: 50%;
+    animation-duration: 0.4s;
+}
+
+.rain:nth-child(7) {
+    left: 60%;
+    animation-duration: 0.6s;
+}
+
+.rain:nth-child(8) {
+    left: 70%;
+    animation-duration: 0.8s;
+}
+
+.rain:nth-child(9) {
+    left: 80%;
+    animation-duration: 0.5s;
+}
+
+.rain:nth-child(10) {
+    left: 90%;
+    animation-duration: 0.7s;
+}
+
+.rain-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1000;
 }
