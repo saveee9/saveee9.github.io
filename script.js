@@ -164,7 +164,6 @@ input:focus {
     }
 }
 
-/* CSS สำหรับแอนิเมชันฝนตก */
 @keyframes rain {
     0% {
         top: -10%;
